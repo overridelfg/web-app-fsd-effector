@@ -1,0 +1,1 @@
+export const GRAPHQL_URL = 'https://swapi-graphql.netlify.app/.netlify/functions/index'
