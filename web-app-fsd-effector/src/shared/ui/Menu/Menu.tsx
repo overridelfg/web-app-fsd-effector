@@ -3,22 +3,23 @@ import {
   ArrowDropUpOutlined,
 } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
-interface FilterMenuProps extends PropsWithChildren {
+interface MenuProps extends PropsWithChildren {
   title: string;
+  isVisible: boolean;
+  setIsVisible: () => void;
 }
 
-const FilterMenu: React.FC<FilterMenuProps> = ({ children, title }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleShow = () => {
-    setIsVisible(!isVisible);
-  };
-
+const Menu: React.FC<MenuProps> = ({
+  children,
+  title,
+  isVisible,
+  setIsVisible,
+}) => {
   return (
     <Box>
-      <Button variant="contained" onClick={handleShow}>
+      <Button variant="contained" onClick={setIsVisible}>
         {title}
         {isVisible ? <ArrowDropUpOutlined /> : <ArrowDropDownOutlined />}
       </Button>
@@ -34,4 +35,4 @@ const FilterMenu: React.FC<FilterMenuProps> = ({ children, title }) => {
   );
 };
 
-export default FilterMenu;
+export default Menu;

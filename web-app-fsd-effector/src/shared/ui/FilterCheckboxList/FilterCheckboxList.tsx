@@ -5,27 +5,21 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { events, selectors } from '../model/filters';
 
-interface FilterProps {
-  list: string[];
-  filterName: 'filmTitles' | 'genders';
-  page?: string;
-  title?: string;
+interface FilterCheckboxListProps {
+  title: string;
+  filterName: string;
+  filterList: string[];
+  selectedFilters: string[];
+  filterHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ list, filterName, title }) => {
-  const { useFilters } = selectors;
-  const selectedFilters = useFilters().queryParams[filterName];
-
-  console.log(selectedFilters);
-
-  const { updateListQueryParam } = events;
-
-  const filterHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateListQueryParam({ key: filterName, value: event.target.value });
-  };
-
+const FilterCheckboxList: React.FC<FilterCheckboxListProps> = ({
+  title,
+  filterList,
+  selectedFilters,
+  filterHandler,
+}) => {
   return (
     <Stack>
       <Typography sx={{ fontWeight: 700 }}>{title}</Typography>
@@ -37,7 +31,7 @@ const Filter: React.FC<FilterProps> = ({ list, filterName, title }) => {
           padding: '0.2rem',
         }}
       >
-        {list.map((item, id) => {
+        {filterList.map((item, id) => {
           return (
             <FormControlLabel
               sx={{
@@ -66,4 +60,4 @@ const Filter: React.FC<FilterProps> = ({ list, filterName, title }) => {
   );
 };
 
-export default Filter;
+export default FilterCheckboxList;

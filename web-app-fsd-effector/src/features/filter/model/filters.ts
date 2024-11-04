@@ -1,33 +1,34 @@
-import { createEvent, createStore } from 'effector';
-import { TFilterState, TFiltersPayload } from './filters.types';
-import { useUnit } from 'effector-react';
+import { combine, createEvent, createStore } from 'effector';
+import { getFilteredList } from '../lib/getFilteredList';
 
-const updateListQueryParam = createEvent<TFiltersPayload>();
+export const updateFilmTitlesQueryParam = createEvent<string>();
+export const updateGendersQueryParam = createEvent<string>();
+export const setFilterMenuVisability = createEvent<void>();
 
-export const $filters = createStore<TFilterState>({
-  queryParams: {
-    filmTitles: [],
-    genders: [],
+export const $filterMenuVisability = createStore<boolean>(false).on(
+  setFilterMenuVisability,
+  (state, _) => !state,
+);
+
+export const $filmTitlesFilter = createStore<string[]>([]).on(
+  updateFilmTitlesQueryParam,
+  (state, payload) => {
+    return getFilteredList(state, payload);
   },
-}).on(updateListQueryParam, (state, payload) => {
-  const newState = { ...state };
-  const { key, value } = payload;
-  if (value !== '') {
-    if (key === 'filmTitles' || key === 'genders') {
-      if (newState.queryParams[key].find((name) => name === value)) {
-        newState.queryParams[key] = newState.queryParams[key].filter(
-          (name) => name !== value,
-        );
-      } else {
-        newState.queryParams[key].push(value);
-      }
-    }
-  }
+);
 
-  return newState;
-});
+export const $gendersFilter = createStore<string[]>([]).on(
+  updateGendersQueryParam,
+  (state, payload) => {
+    return getFilteredList(state, payload);
+  },
+);
 
-const useFilters = () => useUnit($filters);
-
-export const selectors = { useFilters };
-export const events = { updateListQueryParam };
+export const $filtersList = combine(
+  $filmTitlesFilter,
+  $gendersFilter,
+  (filmTitlesFilter, gendersFilter) => ({
+    filmTitles: filmTitlesFilter,
+    genders: gendersFilter,
+  }),
+);

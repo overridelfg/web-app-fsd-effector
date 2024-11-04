@@ -1,3 +1,5 @@
-import Filter from './Filter';
+import { GendersFilter } from './GenderFilter';
+import { FilmTitlesFilter } from './FilmTitlesFilter';
+import { FilterMenu } from './FilterMenu';
 
-export default Filter;
+export { GendersFilter, FilmTitlesFilter, FilterMenu };
