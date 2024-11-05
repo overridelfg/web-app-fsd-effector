@@ -1,8 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { RouteDescription, RouteName } from '../shared/config/routes.config';
-import MainLayout from './layouts/MainLayout';
-
+import MainLayout from '../widgets/main-layout/ui/MainLayout';
 const CharachterListPage = lazy(() => import('../pages/character-list'));
 const CharacterInfoPage = lazy(() => import('../pages/character-info'));
 const HomePage = lazy(() => import('../pages/home'));
